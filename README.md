@@ -24,7 +24,7 @@ set PORT=8000     //Windows
 - **Express**:  
 Back-end API framework
 - **nodemon**:  
-```npx nodemon FILENAME.js``` for watch the changes and run the sercice.
+Run ```npx nodemon FILENAME.js``` for watch the changes and run the sercice.
 - **joi**:  
 The request validation check package.
 
