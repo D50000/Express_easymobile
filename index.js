@@ -1,5 +1,7 @@
 const express = require("express");
 const request = require("request");
+// rawurlencode() encodes space as %20
+const URLencode = require('urlencode');
 
 const app = express();
 // For parsing the JSON object.
@@ -12,7 +14,7 @@ app.use(express.json());
 // app.delete();
 
 const hk = "HashKey=JjIUftn8jSEdmEEy";
-const h4 = "Ey3z4BypGnXQDtol";
+const h4 = "HashIV=Ey3z4BypGnXQDtol";
 
 app.get("/ecpay/chcekAlive", (req, res) => {
   res.send("Online !!");
@@ -31,7 +33,8 @@ app.listen(port, () => {
 
 function order(data, x) {
   // ChoosePayment=BARCODE&ChooseSubPayment=BARCODE&EncryptType=1&ItemName=手機殼&MerchantID=3115121&MerchantTradeDate=2020/07/26 14:30:31&MerchantTradeNo=ecpay20200726143031&PaymentType=aio&ReturnURL=https://www.ecpay.com.tw/receive.php&TotalAmount=987&TradeDesc=test
-  const encode = encodeURI(hk + data + h4);
+  const encode = URLencode(hk + "&" + data + "&" + h4).replace(/%20/g, "+");
+  console.log(encode);
   const l_encode = encode.toLowerCase();
   const h = sha256(l_encode);
   const cv = h.toUpperCase();
