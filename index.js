@@ -1,11 +1,22 @@
 const express = require("express");
 const request = require("request");
+const cors = require('cors');
 // rawurlencode() encodes space as %20
 const URLencode = require('urlencode');
 
 const app = express();
 // For parsing the JSON object.
 app.use(express.json());
+
+app.use(cors());
+/* CORS default setting
+{
+  "origin": "*",
+  "methods": "GET,HEAD,PUT,PATCH,POST,DELETE",
+  "preflightContinue": false,
+  "optionsSuccessStatus": 204
+}
+*/
 
 // For the CRUD example:
 // app.get();
