@@ -27,6 +27,10 @@ Back-end API framework
 Run ```npx nodemon FILENAME.js``` for watch the changes and run the sercice.
 - **joi**:  
 The request validation check package.
+- **cors**:  
+The CORS error configuration.
+- **urlencode**:  
+The urlencode / urldecode package. (rawurlencode)
 
 
 ### Reference
