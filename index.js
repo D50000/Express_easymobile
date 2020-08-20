@@ -1,13 +1,13 @@
 const express = require("express");
 const request = require("request");
-const cors = require('cors');
-// rawurlencode() encodes space as %20
-const URLencode = require('urlencode');
+const cors = require("cors");
+const URLencode = require("urlencode"); // rawurlencode() encodes space as %20
+const bodyParser = require("body-parser");
 
 const app = express();
-// For parsing the JSON object.
-app.use(express.json());
-
+app.use(express.json()); // For parsing the JSON object.
+app.use(bodyParser.json()); // support json encoded bodies
+app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
 app.use(cors());
 /* CORS default setting
 {
@@ -33,7 +33,13 @@ app.get("/ecpay/chcekAlive", (req, res) => {
 
 app.post("/ecpay/apiForward", (req, res) => {
   // callback function wait for ecpay response
-  order(req.body.order, res);
+  /* body request:
+    {
+      order: ChoosePayment=BARCODE&ChooseSubPayment=BARCODE&EncryptType=1&ItemName=手機殼&MerchantID=3115121&MerchantTradeDate=2020/07/26 14:30:31&MerchantTradeNo=ecpay20200726143031&PaymentType=aio&ReturnURL=https://www.ecpay.com.tw/receive.php&TotalAmount=987&TradeDesc=test
+    }
+  */
+  console.log(req.body.order);
+  order(req.body, res);
 });
 
 // Set the prot dynamically with environment.
@@ -43,7 +49,7 @@ app.listen(port, () => {
 });
 
 function order(data, x) {
-  // ChoosePayment=BARCODE&ChooseSubPayment=BARCODE&EncryptType=1&ItemName=手機殼&MerchantID=3115121&MerchantTradeDate=2020/07/26 14:30:31&MerchantTradeNo=ecpay20200726143031&PaymentType=aio&ReturnURL=https://www.ecpay.com.tw/receive.php&TotalAmount=987&TradeDesc=test
+  console.log(JSON.stringify(data));
   const encode = URLencode(hk + "&" + data + "&" + h4).replace(/%20/g, "+");
   console.log(encode);
   const l_encode = encode.toLowerCase();
@@ -65,7 +71,7 @@ function order(data, x) {
       x.send(body);
     }
   );
-};
+}
 
 var sha256 = function sha256(ascii) {
   function rightRotate(value, amount) {
