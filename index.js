@@ -39,7 +39,7 @@ app.post("/ecpay/apiForward", (req, res) => {
     }
   */
   console.log(req.body.order);
-  order(req.body, res);
+  order(req.body.order, res);
 });
 
 // Set the prot dynamically with environment.
@@ -49,15 +49,15 @@ app.listen(port, () => {
 });
 
 function order(data, x) {
-  console.log(JSON.stringify(data));
+  console.log(data);
   const encode = URLencode(hk + "&" + data + "&" + h4).replace(/%20/g, "+");
-  console.log(encode);
+  console.log(`Encode: ${encode}`);
   const l_encode = encode.toLowerCase();
   const h = sha256(l_encode);
   const cv = h.toUpperCase();
-  console.log(cv);
+  console.log(`Key: ${cv}`);
   const order = data + "&CheckMacValue=" + cv;
-
+  console.log(`Final: ${order}`);
   request.post(
     {
       headers: { "content-type": "application/x-www-form-urlencoded" },
